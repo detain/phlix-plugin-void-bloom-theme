@@ -1,0 +1,16 @@
+/vendor/
+/node_modules/
+/.phpunit.cache/
+/.phpcs-cache/
+/.phpstan-cache/
+/dev-stubs/*
+!/dev-stubs/.gitkeep
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+.env
+.env.local
+composer.lock
