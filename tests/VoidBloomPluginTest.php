@@ -194,4 +194,19 @@ final class VoidBloomPluginTest extends TestCase
     {
         $this->assertSame('void-bloom', VoidBloomPlugin::SOURCE_NAME);
     }
+
+    #[Test]
+    public function testAllTokensAreValidCssValues(): void
+    {
+        $themes = $this->plugin->providedThemes();
+        $theme = $themes[0];
+        $tokens = $theme['tokens'];
+
+        foreach ($tokens as $token => $value) {
+            $this->assertIsString($value, "Token {$token} must have a string value");
+            $this->assertNotEmpty($value, "Token {$token} must not be empty");
+            $this->assertStringNotContainsString('var(', $value, "Token {$token} must not contain var() references");
+            $this->assertStringNotContainsString('url(', $value, "Token {$token} must not contain url() references");
+        }
+    }
 }
