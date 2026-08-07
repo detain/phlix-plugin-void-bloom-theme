@@ -17,7 +17,7 @@ parameters:
         deadCodeDetectionDuringVisit: true
         checkAlwaysTrueCheckTypeFunctionCall: true
         checkAlwaysTrueInstanceof: true
-        checkAlwaysTrue LooseComparison: true
+        checkAlwaysTrueLooseComparison: true
         checkExplicitMixedMissingReturn: true
         checkImplicitMixed: true
         checkThisOnly: true

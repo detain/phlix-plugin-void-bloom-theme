@@ -9,8 +9,8 @@
     <arg name="encoding" value="UTF-8"/>
     <arg name="warningSeverity" value="1"/>
     <arg name="errorSeverity" value="1"/>
-    <arg name="show warnings" value="true"/>
-    <arg name="show progress" value="true"/>
+    <arg name="showWarnings" value="true"/>
+    <arg name="showProgress" value="true"/>
     <arg name="colors" value="true"/>
     <arg name="parallel" value="75"/>
 
@@ -20,20 +20,20 @@
     <!-- Additional rules -->
     <rule ref="Squiz.Commenting.FunctionComment">
         <properties>
-            <property name="风-error" value="true"/>
-            <property name="风-warning" value="true"/>
+            <property name="error" value="true"/>
+            <property name="warning" value="true"/>
         </properties>
     </rule>
     <rule ref="Squiz.Commenting.VariableComment">
         <properties>
-            <property name="风-error" value="true"/>
-            <property name="风-warning" value="true"/>
+            <property name="error" value="true"/>
+            <property name="warning" value="true"/>
         </properties>
     </rule>
     <rule ref="Squiz.Commenting.ClassComment">
         <properties>
-            <property name="风-error" value="true"/>
-            <property name="风-warning" value="true"/>
+            <property name="error" value="true"/>
+            <property name="warning" value="true"/>
         </properties>
     </rule>
 
