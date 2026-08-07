@@ -1,42 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
-    <name>Void Bloom Theme</name>
-    <description>Coding standard for Void Bloom Theme plugin</description>
+<ruleset name="Phlix Theme Plugin">
+    <description>PSR-12 coding standard</description>
     <file>src</file>
     <file>tests</file>
-    <arg name="tab-width" value="4"/>
-    <arg name="encoding" value="UTF-8"/>
-    <arg name="warningSeverity" value="1"/>
-    <arg name="errorSeverity" value="1"/>
-    <arg name="showWarnings" value="true"/>
-    <arg name="showProgress" value="true"/>
-    <arg name="colors" value="true"/>
-    <arg name="parallel" value="75"/>
-
-    <!-- PSR-12 -->
+    <file>dev-stubs</file>
+    <exclude-pattern>vendor/</exclude-pattern>
     <rule ref="PSR12"/>
-
-    <!-- Additional rules -->
-    <rule ref="Squiz.Commenting.FunctionComment">
-        <properties>
-            <property name="error" value="true"/>
-            <property name="warning" value="true"/>
-        </properties>
-    </rule>
-    <rule ref="Squiz.Commenting.VariableComment">
-        <properties>
-            <property name="error" value="true"/>
-            <property name="warning" value="true"/>
-        </properties>
-    </rule>
-    <rule ref="Squiz.Commenting.ClassComment">
-        <properties>
-            <property name="error" value="true"/>
-            <property name="warning" value="true"/>
-        </properties>
-    </rule>
-
-    <!-- Exclude dev-stubs -->
-    <exclude path="dev-stubs"/>
 </ruleset>
