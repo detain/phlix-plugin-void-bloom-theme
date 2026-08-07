@@ -10,10 +10,7 @@
          failOnWarning="true">
     <testsuites>
         <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/phpunit/unit</directory>
-        </testsuite>
-        <testsuite name="Integration">
-            <directory suffix="Test.php">./tests/phpunit/integration</directory>
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
     <coverage includeUncoveredFiles="true"
