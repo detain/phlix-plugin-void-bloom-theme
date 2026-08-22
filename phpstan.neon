@@ -1,31 +1,14 @@
 parameters:
     level: 9
-    paths:
-        - src
-        - tests
-    excludePaths:
-        - dev-stubs
     scanDirectories:
         - dev-stubs
+    paths:
+        - src
+    excludePaths:
+        - vendor
     ignoreErrors:
         - '#Method .* deprecated#'
         - '#Function .* deprecated#'
     treatPhpDocTypesAsCertain: false
     reportUnmatchedIgnoredErrors: false
-    featureToggles:
-        deadCodeDetectionDuringAnalysis: true
-        deadCodeDetectionDuringVisit: true
-        checkAlwaysTrueCheckTypeFunctionCall: true
-        checkAlwaysTrueInstanceof: true
-        checkAlwaysTrueLooseComparison: true
-        checkExplicitMixedMissingReturn: true
-        checkImplicitMixed: true
-        checkThisOnly: true
-        checkWrongOrderOfUnionTypes: true
-        checkNullables: true
-        checkThis: true
-        checkUnionTypes: true
-        checkExplicitMixed: true
-        checkImplicitMixed: true
-        checkBenevolentUnionTypes: true
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'

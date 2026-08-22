@@ -3,8 +3,6 @@
 /.phpunit.cache/
 /.phpcs-cache/
 /.phpstan-cache/
-/dev-stubs/*
-!/dev-stubs/.gitkeep
 *.log
 .DS_Store
 .idea/

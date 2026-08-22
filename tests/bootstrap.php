@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * PHPUnit bootstrap file for phlix-plugin-void-bloom-theme.
  *
  * Sets up the autoloader and any required stubs for testing.
  */
+
+declare(strict_types=1);
 
 // Try to use Composer's autoloader if available
 $autoloadPath = __DIR__ . '/../vendor/autoload.php';
