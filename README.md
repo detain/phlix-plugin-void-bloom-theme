@@ -62,6 +62,29 @@ composer require detain/phlix-plugin-void-bloom-theme
 - PHP 8.3+
 - Phlix 0.44.0+
 
+## Development
+
+Install dependencies:
+
+```bash
+composer install
+```
+
+Run the test suite (`phpunit.xml` boots `tests/bootstrap.php`):
+
+```bash
+vendor/bin/phpunit --colors=always
+```
+
+Run static analysis and coding standard checks:
+
+```bash
+composer phpstan
+composer phpcs
+```
+
+`phpstan.neon` scans `dev-stubs/`, which stubs the host-only `Phlix\Shared\Plugin\LifecycleInterface` and `Phlix\Theming\ThemeSourceInterface` contracts, and `phpcs.xml` applies `PSR12` to `src/`, `tests/` and `dev-stubs/`. `.github/workflows/test.yml` runs all three on PHP 8.3 and 8.4.
+
 ## License
 
 MIT License - see LICENSE file for details.
