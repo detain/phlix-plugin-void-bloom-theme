@@ -17,6 +17,14 @@ use RuntimeException;
  * SPA through phlix-ui applyThemeTokens) assigns each role a WCAG floor,
  * measured on the grounds it is actually painted on:
  *
+ *  - `--accent-text` is the accent hue AS foreground text/icon — it must both
+ *    reach AA (>= 4.5:1) on every background and surface and stay an
+ *    accent-hue ink. The ~15 dark-surface consumers (signup links, brand dots,
+ *    active-profile badge, global Spinner, row-arrow hovers) read it as
+ *    `color: var(--accent-text)`; an achromatic white passes the numeric floor
+ *    but erases the hue affordance the role exists to carry. The ink-on-fill
+ *    role is a different token — `--text-on-accent` — pinned against
+ *    `--accent` so a naive swap of the two reddens both laws.
  *  - `--accent-ring` is the sole desktop focus cue (the ui paints it as
  *    `box-shadow: 0 0 0 Npx var(--accent-ring)` after `outline: none`, ~131
  *    :focus-visible consumers across phlix-ui/src). Every ground it can be
@@ -31,6 +39,9 @@ use RuntimeException;
 #[CoversClass(VoidBloomPlugin::class)]
 final class TokenContrastTest extends TestCase
 {
+    /** WCAG 1.4.3 AA floor for normal-size text. */
+    private const AA_TEXT_RATIO = 4.5;
+
     /** WCAG 1.4.11 floor for non-text UI components (the focus ring). */
     private const NON_TEXT_RATIO = 3.0;
 
@@ -66,6 +77,77 @@ final class TokenContrastTest extends TestCase
         }
 
         return $grounds;
+    }
+
+    #[Test]
+    public function testAccentTextMeetsAaAsForegroundOnEveryGround(): void
+    {
+        $ink = $this->tokens()['--accent-text'];
+
+        foreach ($this->grounds() as $name => $ground) {
+            $ratio = $this->contrastRatio($ink, $ground);
+            $this->assertGreaterThanOrEqual(
+                self::AA_TEXT_RATIO,
+                $ratio,
+                sprintf(
+                    '--accent-text %s on %s (%s) is %.2f:1 — below the 4.5:1 AA foreground floor',
+                    $ink,
+                    $name,
+                    $ground,
+                    $ratio
+                )
+            );
+        }
+    }
+
+    #[Test]
+    public function testAccentTextIsTheAccentHueAsForeground(): void
+    {
+        $tokens = $this->tokens();
+        [$inkHue, $inkSat] = $this->toHsl($this->parseHex($tokens['--accent-text']));
+        [$accentHue] = $this->toHsl($this->parseHex($tokens['--accent']));
+
+        $this->assertGreaterThanOrEqual(
+            0.25,
+            $inkSat,
+            sprintf(
+                '--accent-text %s has HSL saturation %.2f — an achromatic ink erases the hue'
+                . ' affordance this role exists to carry (contract: accent AS foreground text/icon)',
+                $tokens['--accent-text'],
+                $inkSat
+            )
+        );
+
+        $distance = min(abs($inkHue - $accentHue), 360 - abs($inkHue - $accentHue));
+        $this->assertLessThanOrEqual(
+            20.0,
+            $distance,
+            sprintf(
+                '--accent-text hue %.1f is %.1f deg from the accent hue %.1f — outside the 20 deg'
+                . ' accent family allowed for this role',
+                $inkHue,
+                $distance,
+                $accentHue
+            )
+        );
+    }
+
+    #[Test]
+    public function testTextOnAccentMeetsAaAsInkOnTheAccentFill(): void
+    {
+        $tokens = $this->tokens();
+        $ratio = $this->contrastRatio($tokens['--text-on-accent'], $tokens['--accent']);
+
+        $this->assertGreaterThanOrEqual(
+            self::AA_TEXT_RATIO,
+            $ratio,
+            sprintf(
+                '--text-on-accent %s on --accent %s is %.2f:1 — below the 4.5:1 AA floor',
+                $tokens['--text-on-accent'],
+                $tokens['--accent'],
+                $ratio
+            )
+        );
     }
 
     #[Test]
@@ -114,6 +196,45 @@ final class TokenContrastTest extends TestCase
         }
 
         return 0.2126 * $channels[0] + 0.7152 * $channels[1] + 0.0722 * $channels[2];
+    }
+
+    private function contrastRatio(string $hexA, string $hexB): float
+    {
+        return $this->contrastRatioRgb($this->parseHex($hexA), $this->parseHex($hexB));
+    }
+
+    /**
+     * HSL of a parsed #rrggbb triple.
+     *
+     * @param array{int, int, int} $rgb
+     *
+     * @return array{float, float, float} hue degrees, saturation, lightness
+     */
+    private function toHsl(array $rgb): array
+    {
+        [$r, $g, $b] = array_map(static fn (int $v): float => $v / 255, $rgb);
+        $max = max($r, $g, $b);
+        $min = min($r, $g, $b);
+        $lightness = ($max + $min) / 2;
+
+        if ($max === $min) {
+            return [0.0, 0.0, $lightness];
+        }
+
+        $delta = $max - $min;
+        $saturation = $lightness > 0.5
+            ? $delta / (2 - $max - $min)
+            : $delta / ($max + $min);
+
+        if ($max === $r) {
+            $hue = (($g - $b) / $delta) + ($g < $b ? 6 : 0);
+        } elseif ($max === $g) {
+            $hue = (($b - $r) / $delta) + 2;
+        } else {
+            $hue = (($r - $g) / $delta) + 4;
+        }
+
+        return [$hue * 60, $saturation, $lightness];
     }
 
     /**

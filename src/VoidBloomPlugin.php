@@ -79,7 +79,7 @@ final class VoidBloomPlugin implements LifecycleInterface, ThemeSourceInterface
                     '--accent-active' => '#fa5252',
                     '--accent-soft' => 'rgba(255, 107, 107, 0.15)',
                     '--accent-ring' => 'rgba(255, 107, 107, 0.7)',
-                    '--accent-text' => '#ffffff',
+                    '--accent-text' => '#ff6b6b',
                     '--bg' => '#050505',
                     '--surface' => '#0c0c0c',
                     '--surface-2' => '#141414',
