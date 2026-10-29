@@ -4,25 +4,67 @@ A dark, atmospheric UI theme for Phlix with coral accents and deep shadows.
 
 ## Theme Tokens
 
-| Token | Value | Description |
-|-------|-------|-------------|
-| **Theme ID** | `void-bloom` | Unique identifier |
-| **Extends** | `midnight` | Parent theme |
-| **Accent** | `#ff6b6b` | Coral accent color |
-| **Background** | `#050505` | Primary background |
-| **Surface** | `#0c0c0c` | Card/panel surfaces |
-| **Surface 2** | `#141414` | Elevated surfaces |
-| **Surface 3** | `#1e1e1e` | Highest elevation |
-| **Text** | `#f5f0e8` | Primary text (warm white) |
-| **Text Muted** | `#c9c2b8` | Secondary text |
-| **Text Subtle** | `#9c948a` | Tertiary text |
-| **Text Faint** | `#8f877d` | Disabled/hint text |
-| **Border** | `#252220` | Default borders |
-| **Border Subtle** | `#1a1918` | Subtle dividers |
-| **Border Strong** | `#3d3835` | Emphasized borders |
-| **Ambient** | `rgba(255, 107, 107, 0.18)` | Accent glow effect |
-| **Vignette** | `rgba(0, 0, 0, 0.7)` | Edge darkening |
-| **Grain Opacity** | `0.035` | Film grain overlay |
+The payload registers one theme — id `void-bloom`, name *Void Bloom*, `dark:
+true`, extending the built-in `midnight` base — and contributes the 28 CSS
+custom properties below. Each row names the actual token it ships; `tests/TokenContrastTest.php`
+recomputes WCAG math from these values on every run.
+
+### Accent family
+
+| Token | Value | Role |
+|-------|-------|------|
+| `--accent` | `#ff6b6b` | Coral accent — fills, active states |
+| `--accent-hover` | `#ff8787` | Accent hover step |
+| `--accent-active` | `#fa5252` | Accent pressed step |
+| `--accent-soft` | `rgba(255, 107, 107, 0.15)` | Translucent accent background (soft tints, selected rows) |
+| `--accent-ring` | `rgba(255, 107, 107, 0.7)` | Keyboard focus ring — the ui paints `box-shadow: 0 0 0 Npx var(--accent-ring)` after `outline: none`, so this is the only desktop focus cue; 0.7 alpha keeps it ≥3:1 (WCAG 1.4.11) against every ground adjacency |
+| `--accent-text` | `#ff6b6b` | **The accent hue as foreground text/icon** — per the contract (`phlix-tokens/src/css/colors.css`: the accent *as* foreground, AA ≥4.5:1 on bg/surfaces); here it is the coral itself, 6.01–7.34:1 on the surface stack. This is *not* the ink painted on accent-filled controls — that role is `--text-on-accent` |
+
+### Background & surfaces
+
+| Token | Value | Role |
+|-------|-------|------|
+| `--bg` | `#050505` | Primary background |
+| `--surface` | `#0c0c0c` | Card/panel surfaces |
+| `--surface-2` | `#141414` | Elevated surfaces |
+| `--surface-3` | `#1e1e1e` | Highest elevation |
+| `--surface-glass` | `rgba(12, 12, 12, 0.65)` | Glass panel overlay |
+| `--surface-glass-strong` | `rgba(5, 5, 5, 0.85)` | Stronger glass overlay |
+
+### Text ramp
+
+| Token | Value | Role |
+|-------|-------|------|
+| `--text` | `#f5f0e8` | Primary text (warm white) |
+| `--text-muted` | `#c9c2b8` | Secondary text |
+| `--text-subtle` | `#9c948a` | Tertiary text — placeholders/hints, AA ≥4.5:1 on every ground (pinned) |
+| `--text-faint` | `#8f877d` | Disabled/hint text — carries form placeholders and help copy, AA ≥4.5:1 on every ground (pinned) |
+| `--text-on-accent` | `#050505` | Dark ink painted **on** accent-filled controls (Button, Badge, Switch knob) — the ink-on-fill role, distinct from `--accent-text` |
+
+### Borders & atmosphere
+
+| Token | Value | Role |
+|-------|-------|------|
+| `--border` | `#252220` | Default borders |
+| `--border-subtle` | `#1a1918` | Subtle dividers |
+| `--border-strong` | `#3d3835` | Emphasized borders |
+| `--grain-opacity` | `0.035` | Film grain overlay strength |
+| `--vignette` | `rgba(0, 0, 0, 0.7)` | Edge darkening |
+| `--ambient` | `rgba(255, 107, 107, 0.18)` | Ambient coral glow |
+
+### Legacy `--color-*` aliases
+
+The five keys the built-in generation still reads, each mirroring its modern
+twin one-for-one (other `--color-*` halves are not overridden here — they
+inherit `midnight`):
+
+| Token | Value | Alias of |
+|-------|-------|----------|
+| `--color-bg` | `#050505` | `--bg` |
+| `--color-surface` | `#0c0c0c` | `--surface` |
+| `--color-text` | `#f5f0e8` | `--text` |
+| `--color-text-muted` | `#c9c2b8` | `--text-muted` |
+| `--color-border` | `#252220` | `--border` |
 
 ## Color Palette
 
