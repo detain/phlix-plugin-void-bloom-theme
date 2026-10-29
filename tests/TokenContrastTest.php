@@ -25,6 +25,10 @@ use RuntimeException;
  *    but erases the hue affordance the role exists to carry. The ink-on-fill
  *    role is a different token — `--text-on-accent` — pinned against
  *    `--accent` so a naive swap of the two reddens both laws.
+ *  - `--text-subtle` and `--text-faint` carry form placeholders, hints and
+ *    help copy (AuthField ::placeholder, SyncPlayModal, LoginForm/SignupForm
+ *    help text) — functional body-text tier, so both must reach AA (>= 4.5:1)
+ *    on every ground of the elevation stack.
  *  - `--accent-ring` is the sole desktop focus cue (the ui paints it as
  *    `box-shadow: 0 0 0 Npx var(--accent-ring)` after `outline: none`, ~131
  *    :focus-visible consumers across phlix-ui/src). Every ground it can be
@@ -148,6 +152,40 @@ final class TokenContrastTest extends TestCase
                 $ratio
             )
         );
+    }
+
+    #[Test]
+    public function testTextSubtleMeetsAaAsBodyTierOnEveryGround(): void
+    {
+        $this->assertTierMeetsAaOnEveryGround('--text-subtle');
+    }
+
+    #[Test]
+    public function testTextFaintMeetsAaAsBodyTierOnEveryGround(): void
+    {
+        $this->assertTierMeetsAaOnEveryGround('--text-faint');
+    }
+
+    private function assertTierMeetsAaOnEveryGround(string $token): void
+    {
+        $ink = $this->tokens()[$token];
+
+        foreach ($this->grounds() as $name => $ground) {
+            $ratio = $this->contrastRatio($ink, $ground);
+            $this->assertGreaterThanOrEqual(
+                self::AA_TEXT_RATIO,
+                $ratio,
+                sprintf(
+                    '%s (%s) on %s (%s) is %.2f:1 — below the 4.5:1 AA floor;'
+                    . ' this tier carries placeholders, hints and help text',
+                    $token,
+                    $ink,
+                    $name,
+                    $ground,
+                    $ratio
+                )
+            );
+        }
     }
 
     #[Test]

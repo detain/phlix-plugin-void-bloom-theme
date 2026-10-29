@@ -16,7 +16,7 @@ A dark, atmospheric UI theme for Phlix with coral accents and deep shadows.
 | **Text** | `#f5f0e8` | Primary text (warm white) |
 | **Text Muted** | `#c9c2b8` | Secondary text |
 | **Text Subtle** | `#9c948a` | Tertiary text |
-| **Text Faint** | `#6b665e` | Disabled/hint text |
+| **Text Faint** | `#8f877d` | Disabled/hint text |
 | **Border** | `#252220` | Default borders |
 | **Border Subtle** | `#1a1918` | Subtle dividers |
 | **Border Strong** | `#3d3835` | Emphasized borders |
@@ -39,7 +39,7 @@ Surface 3:      #1e1e1e  ████████
 Text:           #f5f0e8  ████████
 Text Muted:     #c9c2b8  ████████
 Text Subtle:    #9c948a  ████████
-Text Faint:     #6b665e  ████████
+Text Faint:     #8f877d  ████████
 ```
 
 ## Features
