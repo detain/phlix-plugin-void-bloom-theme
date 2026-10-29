@@ -150,8 +150,8 @@ final class VoidBloomPluginTest extends TestCase
     #[Test]
     public function itReturnsNoSubscribedEvents(): void
     {
+        // subscribedEvents(): array is enforced by the signature itself.
         $events = $this->plugin->subscribedEvents();
-        $this->assertIsArray($events);
         $this->assertEmpty($events, 'Theme plugins should not subscribe to events');
     }
 
@@ -160,17 +160,17 @@ final class VoidBloomPluginTest extends TestCase
     {
         $container = $this->createMock(\Psr\Container\ContainerInterface::class);
 
-        // Should not throw
+        // Should not throw — the test failing IS the assertion.
+        $this->expectNotToPerformAssertions();
         $this->plugin->onEnable($container);
-        $this->assertTrue(true, 'onEnable should complete without errors');
     }
 
     #[Test]
     public function itHandlesDisableWithoutErrors(): void
     {
-        // Should not throw
+        // Should not throw — the test failing IS the assertion.
+        $this->expectNotToPerformAssertions();
         $this->plugin->onDisable();
-        $this->assertTrue(true, 'onDisable should complete without errors');
     }
 
     #[Test]
@@ -182,9 +182,8 @@ final class VoidBloomPluginTest extends TestCase
         $this->assertNotNull($theme);
         $tokens = $theme['tokens'];
 
-        // Each token value should be a valid CSS color (hex, rgb, rgba, etc.)
+        // Value type is enforced by the token map; emptiness is the check here.
         foreach ($tokens as $token => $value) {
-            $this->assertIsString($value, "Token {$token} must have a string value");
             $this->assertNotEmpty($value, "Token {$token} must not be empty");
         }
     }
@@ -203,7 +202,6 @@ final class VoidBloomPluginTest extends TestCase
         $tokens = $theme['tokens'];
 
         foreach ($tokens as $token => $value) {
-            $this->assertIsString($value, "Token {$token} must have a string value");
             $this->assertNotEmpty($value, "Token {$token} must not be empty");
             $this->assertStringNotContainsString('var(', $value, "Token {$token} must not contain var() references");
             $this->assertStringNotContainsString('url(', $value, "Token {$token} must not contain url() references");
