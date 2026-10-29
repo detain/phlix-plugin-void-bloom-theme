@@ -53,9 +53,49 @@ Text Faint:     #8f877d  ████████
 
 ## Installation
 
+### The supported route: the plugin catalog
+
+The Phlix server installs plugins from a **catalog** (`plugins.json`). A catalog
+entry pins an exact commit (`ref`) and the sha256 of that commit's tarball
+(`artifactSha256`), and the server verifies those bytes before it extracts
+anything. Without a pin, `PluginLoader::install()` refuses outright — that is a
+deliberate default-deny, not a bug to work around.
+
+**Admin UI** — *Admin → Plugins* (`/app/admin/plugins`), find **Void Bloom
+Theme**, press **Install**, then flip its switch to **enable** it.
+
+**CLI** — from the server root, pass the **repository URL**, not the plugin
+name (the URL is what gets rewritten to the pinned tarball):
+
 ```bash
-composer require detain/phlix-plugin-void-bloom-theme
+php bin/phlix plugin:install https://github.com/detain/phlix-plugin-void-bloom-theme
+php bin/phlix plugin:enable  phlix-plugin-void-bloom-theme
 ```
+
+While iterating on a local fork (no catalog entry yet), build an archive and
+install it over `file://`, which is exempt from the pin requirement because the
+bytes are already yours:
+
+```bash
+tar --exclude=vendor --exclude=.git -czf /tmp/void-bloom.tar.gz phlix-plugin-void-bloom-theme/
+php bin/phlix plugin:install file:///tmp/void-bloom.tar.gz
+php bin/phlix plugin:enable  phlix-plugin-void-bloom-theme
+```
+
+### What does **not** work
+
+`composer require detain/phlix-plugin-void-bloom-theme` into the server, or
+cloning this repository into the plugins directory, does not register anything —
+the plugin loader installs catalog-pinned archives or local tarballs, never an
+ambient vendor checkout or a bare directory.
+
+### Install, enable, and selection are three different acts
+
+Installing downloads and stages the plugin. **Enabling** it is what registers
+the theme: `PluginLoader::enable()` finds the `ThemeSourceInterface` on the
+entry class and contributes the `void-bloom` theme id. Choosing the theme is a
+**per-user preference**, not an admin action — each user picks *Void Bloom*
+under **Settings → Appearance**. None of the three steps implies the next.
 
 ## Requirements
 
