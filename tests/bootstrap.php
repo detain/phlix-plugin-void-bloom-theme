@@ -1,63 +1,36 @@
 <?php
 
 /**
- * PHPUnit bootstrap file for phlix-plugin-void-bloom-theme.
+ * Test bootstrap for the plugin PHPUnit suite.
  *
- * Sets up the autoloader and any required stubs for testing.
+ * @copyright 2026 Joe Huss <detain@interserver.net>
+ * @license   MIT
  */
 
 declare(strict_types=1);
 
-// Try to use Composer's autoloader if available
-$autoloadPath = __DIR__ . '/../vendor/autoload.php';
-if (file_exists($autoloadPath)) {
-    require_once $autoloadPath;
-} else {
-    // Fallback: register a simple PSR-4 autoloader for the plugin source
-    spl_autoload_register(function (string $class): void {
-        $prefix = 'Phlix\\VoidBloom\\';
-        $baseDir = __DIR__ . '/../src/';
+/**
+ * Test bootstrap for the plugin's own PHPUnit suite.
+ *
+ * A theme plugin's runtime depends on TWO host contracts:
+ *
+ *  - `Phlix\Shared\Plugin\LifecycleInterface` — published in
+ *    `detain/phlix-shared`, so `composer install` normally supplies it.
+ *  - `Phlix\Theming\ThemeSourceInterface` — declared by the SERVER, in no
+ *    Composer package at all. Nothing but a running Phlix server can supply it.
+ *
+ * In an installed plugin (`var/plugins/phlix-plugin-void-bloom-theme/`) both are
+ * on the host's classpath. Tested in isolation from this repo, the second one
+ * never is — hence the stubs, each registered only when the real contract is
+ * absent, so a run inside a server checkout still exercises the real thing.
+ */
 
-        if (str_starts_with($class, $prefix)) {
-            $relativeClass = substr($class, strlen($prefix));
-            $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
-            if (file_exists($file)) {
-                require_once $file;
-            }
-        }
+require __DIR__ . '/../vendor/autoload.php';
 
-        // Also handle test classes
-        $testPrefix = 'Phlix\\VoidBloom\\Tests\\';
-        if (str_starts_with($class, $testPrefix)) {
-            $relativeClass = substr($class, strlen($testPrefix));
-            $file = __DIR__ . '/phpunit/unit/' . str_replace('\\', '/', $relativeClass) . '.php';
-            if (file_exists($file)) {
-                require_once $file;
-            }
-        }
-    });
+if (!interface_exists(\Phlix\Shared\Plugin\LifecycleInterface::class)) {
+    require __DIR__ . '/../dev-stubs/LifecycleInterface.php';
 }
 
-// Load dev stubs if they exist and the real interfaces aren't available
-$stubsDir = __DIR__ . '/../dev-stubs/';
-if (is_dir($stubsDir)) {
-    // Make stubs available as fallbacks
-    spl_autoload_register(function (string $class) use ($stubsDir): void {
-        $stubFiles = [
-            'Phlix\\Shared\\Plugin\\LifecycleInterface' => 'LifecycleInterface.php',
-            'Phlix\\Theming\\ThemeSourceInterface' => 'ThemeSourceInterface.php',
-        ];
-
-        foreach ($stubFiles as $fqcn => $filename) {
-            if ($class === $fqcn) {
-                $path = $stubsDir . $filename;
-                if (file_exists($path)) {
-                    require_once $path;
-                }
-            }
-        }
-    }, true, true);
+if (!interface_exists(\Phlix\Theming\ThemeSourceInterface::class)) {
+    require __DIR__ . '/../dev-stubs/ThemeSourceInterface.php';
 }
-
-// Set environment for testing
-$_ENV['APP_ENV'] = $_ENV['APP_ENV'] ?? 'testing';
