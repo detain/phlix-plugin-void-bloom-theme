@@ -91,7 +91,8 @@ Text Faint:     #8f877d  ████████
 - Ambient coral glow effects
 - Film grain texture overlay
 - Vignette edge darkening
-- Seamless extension of the midnight base theme
+- Extends the built-in `midnight` base: the 28 tokens above are what this
+  theme overrides — everything else it inherits from `midnight` unchanged
 
 ## Installation
 
