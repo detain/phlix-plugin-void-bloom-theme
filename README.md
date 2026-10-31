@@ -1,6 +1,6 @@
 # Void Bloom Theme for Phlix
 
-A dark, atmospheric UI theme for Phlix with coral accents and deep shadows.
+A dark, atmospheric UI theme for Phlix with coral accents, film grain and a vignette-darkened surface stack.
 
 ## Theme Tokens
 
@@ -87,7 +87,9 @@ Text Faint:     #8f877d  ████████
 ## Features
 
 - Dark atmospheric design with warm coral accents
-- Deep shadows and layered surface system
+- Layered four-tier surface stack under the `--vignette` edge-darkening (values in the
+  table above) — shadow ramps are host-baseline layout tokens inherited from `midnight`
+  unchanged; this theme ships none and deepens nothing on its own
 - Ambient coral glow effects
 - Film grain texture overlay
 - Vignette edge darkening
@@ -166,7 +168,22 @@ composer phpstan
 composer phpcs
 ```
 
-`phpstan.neon` scans `dev-stubs/`, which stubs the host-only `Phlix\Shared\Plugin\LifecycleInterface` and `Phlix\Theming\ThemeSourceInterface` contracts, and `phpcs.xml` applies `PSR12` to `src/`, `tests/` and `dev-stubs/`. `.github/workflows/test.yml` runs all three on PHP 8.3 and 8.4.
+`phpstan.neon` scans `dev-stubs/`, which holds minimal copies of the theme's
+TWO host contracts: `Phlix\Shared\Plugin\LifecycleInterface`, which ships in
+`detain/phlix-shared` and so is supplied by `composer install`, and
+`Phlix\Theming\ThemeSourceInterface`, which is declared by the server and ships
+in **no** Composer package at all — only that second one is host-only.
+`tests/bootstrap.php` loads each stub only when the real interface is absent,
+so a run inside a server checkout still exercises the host's own contracts.
+`phpcs.xml` applies `PSR12` to `src/`, `tests/` and `dev-stubs/`.
+
+`.github/workflows/test.yml` runs those three gates on PHP 8.3 and 8.4, plus a
+fourth: the S440 `composer-audit` job, which audits the whole committed
+`composer.lock` — runtime AND development dependencies. Run it locally with
+`php scripts/security-audit-check.php` (PHP 8.3 leg in CI). Its containment
+rules — a single bare run line, no `continue-on-error`, the job kept LAST in
+the file — are policed by `tests/SecurityAuditCheckTest.php`, so neutering the
+gate fails the suite.
 
 ## License
 

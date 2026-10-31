@@ -1,7 +1,7 @@
 {
     "name": "detain/phlix-plugin-void-bloom-theme",
     "type": "phlix-plugin",
-    "description": "Void Bloom — A dark, atmospheric Phlix UI theme with coral accents and deep shadows.",
+    "description": "Void Bloom — A dark, atmospheric Phlix UI theme with coral accents and a vignette-darkened surface stack.",
     "license": "MIT",
     "keywords": [
         "phlix",
