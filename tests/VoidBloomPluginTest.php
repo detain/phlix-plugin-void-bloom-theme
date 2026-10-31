@@ -114,12 +114,22 @@ final class VoidBloomPluginTest extends TestCase
         $this->assertSame('midnight', $themes[0]['extends']);
     }
 
+    /**
+     * The five legacy `--color-*` aliases this theme ships and documents
+     * (README "Legacy `--color-*` aliases"). The name deliberately drops the
+     * old "required" claim: the host's pairing law (phlix-server
+     * src/Theming/BuiltInThemes.php:62-66 — a theme that extends a built-in
+     * and overrides one half of a pair "should set both") implies the full
+     * 22-key legacy set, and this payload carries 5. The 17 orphaned halves
+     * are OWNER-PARKED in fixlog/W-min161-void-bloom__report.md (adding
+     * token values is owner-gated); this test pins today's shipped subset,
+     * not a spec of what should ship.
+     */
     #[Test]
-    public function testProvidesRequiredColorTokens(): void
+    public function testProvidesDocumentedLegacyColorAliases(): void
     {
         $tokens = $this->themeTokens();
 
-        // Core color tokens
         $this->assertArrayHasKey('--color-bg', $tokens);
         $this->assertArrayHasKey('--color-surface', $tokens);
         $this->assertArrayHasKey('--color-text', $tokens);

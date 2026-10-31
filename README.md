@@ -68,6 +68,9 @@ inherit `midnight`):
 
 ## Color Palette
 
+The swatch block below is deliberately a language-less plain fence — ASCII
+art, not code; do not let a linter "fix" it into a tagged block.
+
 ```
 Coral Accent:   #ff6b6b  ████
 Coral Hover:    #ff8787  ████
@@ -187,4 +190,4 @@ gate fails the suite.
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License — see LICENSE file for details.

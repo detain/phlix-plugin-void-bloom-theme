@@ -14,6 +14,8 @@ use Psr\Container\ContainerInterface;
  * A dark, atmospheric theme with coral accents, glass surfaces and vignette
  * edge-darkening; the shadow ramp is inherited from the host baseline.
  *
+ * @package Phlix\VoidBloom
+ *
  * @copyright 2026 Joe Huss <detain@interserver.net>
  */
 final class VoidBloomPlugin implements LifecycleInterface, ThemeSourceInterface
