@@ -54,9 +54,17 @@ recomputes WCAG math from these values on every run.
 
 ### Legacy `--color-*` aliases
 
-The five keys the built-in generation still reads, each mirroring its modern
-twin one-for-one (other `--color-*` halves are not overridden here — they
-inherit `midnight`):
+The five legacy aliases whose modern twins this theme overrides, each mirrored
+one-for-one. The host's built-in payloads declare all 22 `--color-*` aliases as
+independent literals — once flattened, `--color-bg` no longer *follows* an
+override of `--bg` — so the governing law is the pairing rule: a theme that
+overrides one half of a pair must set both (`phlix-server`
+`src/Theming/BuiltInThemes.php`, class docblock). The keys are read live: the
+phlix-tokens base stylesheet consumes `--color-bg` and `--color-text`, the
+phlix-ui photo pages consume `--color-surface` and `--color-border` (plus
+`--color-bg` again); `--color-text-muted` ships for pair completeness — it has
+no non-dev reader estate-wide. The other `--color-*` halves are not overridden
+here — they inherit `midnight`:
 
 | Token | Value | Alias of |
 |-------|-------|----------|
@@ -133,9 +141,16 @@ php bin/phlix plugin:enable  phlix-plugin-void-bloom-theme
 ### What does **not** work
 
 `composer require detain/phlix-plugin-void-bloom-theme` into the server, or
-cloning this repository into the plugins directory, does not register anything —
-the plugin loader installs catalog-pinned archives or local tarballs, never an
-ambient vendor checkout or a bare directory.
+cloning this repository into the plugins directory, registers nothing by itself:
+no ambient path auto-registers a plugin. Registration happens only through an
+install route, and every install route writes the plugin's database row in
+`PluginLoader::finalizeInstall()` — that row, not the bytes on disk, is what
+makes the plugin (and its themes) visible to the host. The catalog
+(`PluginLoader::install()`), `file://` tarballs, and the explicit
+dev-install escape `PluginLoader::installFromDirectory()` (the loader *can*
+stage a bare directory when an operator invokes it on purpose) all flow through
+it; a checkout left in `vendor/` or in the plugins directory is read by none of
+them unless someone triggers an install.
 
 ### Install, enable, and selection are three different acts
 
