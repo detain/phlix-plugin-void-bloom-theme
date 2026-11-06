@@ -63,9 +63,11 @@ interface ThemeSourceInterface
     /**
      * The raw theme payloads this source contributes.
      *
-     * Must be cheap and non-blocking — see the class docblock. Return an
-     * empty list to contribute nothing (a source that is currently
-     * unconfigured, say); that is a valid, leak-free registration.
+     * Must be cheap and non-blocking — the host definition elaborates
+     * this in its "Resident-memory contract" section (phlix-server
+     * src/Theming/ThemeSourceInterface.php). Return an empty list to
+     * contribute nothing (a source that is currently unconfigured,
+     * say); that is a valid, leak-free registration.
      *
      * @return list<array<array-key, mixed>> Raw payloads in the shape
      *         documented on this interface; each is validated by the host.

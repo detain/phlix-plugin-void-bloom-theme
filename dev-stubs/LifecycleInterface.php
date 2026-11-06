@@ -25,10 +25,11 @@ use Psr\Container\ContainerInterface;
  * INTRODUCES a symbol; `stubFiles` would only override one PHPStan can already
  * resolve, and is silently useless for a symbol it cannot find at all).
  *
- * The method docblocks below carry the host's text: this stub IS the contract
- * inside this repo's own CI, so documenting a different data structure here
- * would let a wrong-shaped implementation type-check green locally and fail
- * against the real host loader on enable.
+ * The method docblocks below carry the host's text (its `@since` version
+ * tags aside): this stub IS the contract inside this repo's own CI, so
+ * documenting a different data structure here would let a wrong-shaped
+ * implementation type-check green locally and fail against the real host
+ * loader on enable.
  *
  * Keep in sync with the host definition if that contract ever changes.
  *
@@ -36,8 +37,27 @@ use Psr\Container\ContainerInterface;
  */
 interface LifecycleInterface
 {
+    /**
+     * Called by the loader once when the plugin is enabled. The plugin
+     * may resolve services from the container, open clients, prime
+     * caches — but must not block. Throw to abort enabling; the loader
+     * surfaces the throwable as a `PluginEnableException` on the host.
+     *
+     * @param ContainerInterface $container Host PSR-11 container.
+     *
+     * @return void
+     */
     public function onEnable(ContainerInterface $container): void;
 
+    /**
+     * Called by the loader once when the plugin is disabled, after the
+     * loader has unsubscribed every listener returned from
+     * {@see subscribedEvents()}. Use it to flush queued state, close
+     * clients, etc. Exceptions are caught and logged but the disable
+     * still completes.
+     *
+     * @return void
+     */
     public function onDisable(): void;
 
     /**
