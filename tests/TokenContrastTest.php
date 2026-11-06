@@ -19,9 +19,12 @@ use RuntimeException;
  *
  *  - `--accent-text` is the accent hue AS foreground text/icon — it must both
  *    reach AA (>= 4.5:1) on every background and surface and stay an
- *    accent-hue ink. The ~15 dark-surface consumers (signup links, brand dots,
- *    active-profile badge, global Spinner, row-arrow hovers) read it as
- *    `color: var(--accent-text)`; an achromatic white passes the numeric floor
+ *    accent-hue ink. Dark-surface consumers read it as
+ *    `color: var(--accent-text)` — 43 uses across 33 files measured at
+ *    phlix-ui v0.99.22: signup links, brand dots, active-profile badge,
+ *    global Spinner, row-arrow hovers, plus the ui primitives (Button,
+ *    Chip, Combobox, Select, Tabs, ToastHost) and the Connect and admin
+ *    pages. An achromatic white passes the numeric floor
  *    but erases the hue affordance the role exists to carry. The ink-on-fill
  *    role is a different token — `--text-on-accent` — pinned against
  *    `--accent` so a naive swap of the two reddens both laws.
@@ -30,8 +33,9 @@ use RuntimeException;
  *    help text) — functional body-text tier, so both must reach AA (>= 4.5:1)
  *    on every ground of the elevation stack.
  *  - `--accent-ring` is the sole desktop focus cue (the ui paints it as
- *    `box-shadow: 0 0 0 Npx var(--accent-ring)` after `outline: none`, ~131
- *    :focus-visible consumers across phlix-ui/src). Every ground it can be
+ *    `box-shadow: 0 0 0 Npx var(--accent-ring)` after `outline: none`; 134
+ *    :focus-visible occurrences across phlix-ui/src (.css + .vue, at the
+ *    same v0.99.22 pin). Every ground it can be
  *    painted on, composited, must reach the 3:1 WCAG 1.4.11 non-text minimum
  *    against every ground it can sit adjacent to — the full adjacency matrix,
  *    not just the same-ground state change the base theme numbers used.
