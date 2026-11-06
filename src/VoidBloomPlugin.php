@@ -11,8 +11,9 @@ use Psr\Container\ContainerInterface;
 /**
  * Void Bloom UI Theme Plugin for Phlix.
  *
- * A dark, atmospheric theme with coral accents, glass surfaces and vignette
- * edge-darkening; the shadow ramp is inherited from the host baseline.
+ * A dark, atmospheric Phlix UI theme with coral accents, film grain, glass
+ * surfaces and a vignette-darkened surface stack; the shadow ramp is
+ * inherited from the host baseline.
  *
  * @package Phlix\VoidBloom
  *

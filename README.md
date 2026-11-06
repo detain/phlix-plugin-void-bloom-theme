@@ -1,13 +1,13 @@
 # Void Bloom Theme for Phlix
 
-A dark, atmospheric UI theme for Phlix with coral accents, film grain and a vignette-darkened surface stack.
+A dark, atmospheric Phlix UI theme with coral accents, film grain, glass surfaces and a vignette-darkened surface stack.
 
 ## Theme Tokens
 
-The payload registers one theme — id `void-bloom`, name *Void Bloom*, `dark:
-true`, extending the built-in `midnight` base — and contributes the 28 CSS
-custom properties below. Each row names the actual token it ships; `tests/TokenContrastTest.php`
-recomputes WCAG math from these values on every run.
+The payload registers one theme — id `void-bloom`, name *Void Bloom*,
+`dark: true`, extending the built-in `midnight` base — and contributes the 28
+CSS custom properties below. Each row names the actual token it ships;
+`tests/TokenContrastTest.php` recomputes WCAG math from these values on every run.
 
 ### Accent family
 
@@ -118,7 +118,7 @@ anything. Without a pin, `PluginLoader::install()` refuses outright — that is 
 deliberate default-deny, not a bug to work around.
 
 **Admin UI** — *Admin → Plugins* (`/app/admin/plugins`), find **Void Bloom
-Theme**, press **Install**, then flip its switch to **enable** it.
+Theme**, press **Install**, then flip its switch to **Enable**.
 
 **CLI** — from the server root, pass the **repository URL**, not the plugin
 name (the URL is what gets rewritten to the pinned tarball):
