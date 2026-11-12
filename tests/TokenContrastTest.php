@@ -20,7 +20,7 @@ use RuntimeException;
  *  - `--accent-text` is the accent hue AS foreground text/icon — it must both
  *    reach AA (>= 4.5:1) on every background and surface and stay an
  *    accent-hue ink. Dark-surface consumers read it as
- *    `color: var(--accent-text)` — 43 uses across 33 files measured at
+ *    `color: var(--accent-text)` — 43 lines across 33 files measured at
  *    phlix-ui v0.99.22: signup links, brand dots, active-profile badge,
  *    global Spinner, row-arrow hovers, plus the ui primitives (Button,
  *    Chip, Combobox, Select, Tabs, ToastHost) and the Connect and admin
